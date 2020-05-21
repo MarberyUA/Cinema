@@ -36,7 +36,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("dsadsa", e);
+            throw new DataProcessingException("Error while finding available sessions", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -58,7 +58,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("dsadsa", e);
+            throw new DataProcessingException("Error while creating MovieSession object", e);
         } finally {
             if (session != null) {
                 session.close();

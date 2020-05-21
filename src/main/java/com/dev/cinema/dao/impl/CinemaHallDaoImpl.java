@@ -27,7 +27,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("dsadsa", e);
+            throw new DataProcessingException("Error while creating CinemaHall object", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +43,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             criteriaQuery.from(Movie.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies.", e);
+            throw new DataProcessingException("Error retrieving all CinemaHallObjects.", e);
         }
     }
 }
