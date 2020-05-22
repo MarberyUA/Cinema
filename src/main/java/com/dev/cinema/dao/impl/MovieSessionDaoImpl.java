@@ -20,17 +20,24 @@ import org.hibernate.Transaction;
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try  {
+            session = HibernateUtil.getSessionFactory().openSession();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery = criteriaBuilder.createQuery(MovieSession.class);
             Root<MovieSession> movieSessionRoot = criteriaQuery.from(MovieSession.class);
             Predicate predicateMovieId = criteriaBuilder.equal(movieSessionRoot.get("movie_id"), movieId);
             Predicate predicateDate = criteriaBuilder
-                    .greaterThan(movieSessionRoot.get("showTime"), LocalDateTime.of(date, LocalTime.now()));
+                    .greaterThan(movieSessionRoot.get("showTime"),
+                            LocalDateTime.of(date, date.atStartOfDay().toLocalTime()));
             criteriaQuery.where(predicateMovieId, predicateDate);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error while finding available sessions", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
