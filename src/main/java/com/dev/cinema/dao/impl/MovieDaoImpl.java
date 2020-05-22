@@ -7,13 +7,11 @@ import com.dev.cinema.model.Movie;
 import com.dev.cinema.util.HibernateUtil;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
 public class MovieDaoImpl implements MovieDao {
-    private static final Logger logger = Logger.getLogger(MovieDaoImpl.class);
 
     public Movie add(Movie movie) {
         Transaction transaction = null;
@@ -32,12 +30,17 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     public List<Movie> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Movie.class);
             criteriaQuery.from(Movie.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
+            if (session != null) {
+                session.close();
+            }
             throw new DataProcessingException("Error retrieving all movies.", e);
         }
     }
