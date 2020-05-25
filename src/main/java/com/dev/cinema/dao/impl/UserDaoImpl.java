@@ -39,7 +39,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User get(Long userId) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             User user = session.get(User.class, userId);
             transaction.commit();
@@ -49,6 +51,8 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Error while getting user from db", e);
+        } finally {
+            session.close();
         }
     }
 
