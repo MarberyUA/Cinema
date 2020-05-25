@@ -52,7 +52,9 @@ public class UserDaoImpl implements UserDao {
             }
             throw new DataProcessingException("Error while getting user from db", e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
