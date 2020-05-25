@@ -24,10 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String userEmail) throws AuthenticationException {
-        User user = userDao.findByEmail(userEmail);
-        if (user == null) {
-            throw new AuthenticationException("The email is incorrect");
-        }
-        return user;
+        return userDao.findByEmail(userEmail);
     }
 }
