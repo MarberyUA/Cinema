@@ -6,38 +6,24 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        Session session = null;
-        try  {
-            session = HibernateUtil.getSessionFactory().openSession();
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<MovieSession> criteriaQuery = criteriaBuilder.createQuery(MovieSession.class);
-            Root<MovieSession> movieSessionRoot = criteriaQuery.from(MovieSession.class);
-            Predicate predicateMovieId = criteriaBuilder.equal(movieSessionRoot.get("movie_id"), movieId);
-            Predicate predicateDate = criteriaBuilder
-                    .greaterThan(movieSessionRoot.get("showTime"),
-                            LocalDateTime.of(date, date.atStartOfDay().toLocalTime()));
-            criteriaQuery.where(predicateMovieId, predicateDate);
-            return session.createQuery(criteriaQuery).getResultList();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hqlQuery = "FROM MovieSession ms WHERE ms.movie.id = :id "
+                    + "AND ms.showTime > :date";
+            Query<MovieSession> query = session.createQuery(hqlQuery, MovieSession.class);
+            query.setParameter("id", movieId);
+            query.setParameter("date", date.atStartOfDay());
+            return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error while finding available sessions", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
