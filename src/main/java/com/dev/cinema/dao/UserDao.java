@@ -1,6 +1,5 @@
 package com.dev.cinema.dao;
 
-import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.User;
 
 public interface UserDao {
@@ -8,5 +7,5 @@ public interface UserDao {
 
     User get(Long userId);
 
-    User findByEmail(String userEmail) throws AuthenticationException;
+    User findByEmail(String userEmail);
 }

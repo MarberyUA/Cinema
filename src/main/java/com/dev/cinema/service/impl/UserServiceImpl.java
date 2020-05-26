@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String userEmail) throws AuthenticationException {
+    public User findByEmail(String userEmail) {
         return userDao.findByEmail(userEmail);
     }
 }

@@ -6,6 +6,7 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,15 +16,22 @@ import org.hibernate.query.Query;
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             String hqlQuery = "FROM MovieSession ms WHERE ms.movie.id = :id "
-                    + "AND ms.showTime > :date";
+                    + "AND ms.showTime > :date AND ms.showTime < :secondDate";
             Query<MovieSession> query = session.createQuery(hqlQuery, MovieSession.class);
             query.setParameter("id", movieId);
             query.setParameter("date", date.atStartOfDay());
+            query.setParameter("secondDate", date.atTime(LocalTime.MAX));
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error while finding available sessions", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

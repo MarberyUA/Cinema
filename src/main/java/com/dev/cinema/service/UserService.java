@@ -8,5 +8,5 @@ public interface UserService {
 
     User get(Long userId);
 
-    User findByEmail(String userEmail) throws AuthenticationException;
+    User findByEmail(String userEmail);
 }
