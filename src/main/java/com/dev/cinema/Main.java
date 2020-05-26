@@ -20,7 +20,6 @@ public class Main {
     private static Injector injector = Injector.getInstance("com.dev.cinema");
 
     public static void main(String[] args) throws AuthenticationException {
-
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
         movieService.getAll().forEach(System.out::println);
@@ -77,6 +76,5 @@ public class Main {
         System.out.println(registeredUser.getEmail());
         User sameRegisteredUser =
                 authenticationService.registration("markchicken@facebook.com", "1234");
-
     }
 }
