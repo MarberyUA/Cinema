@@ -10,6 +10,7 @@ import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
 import java.time.LocalDate;
@@ -20,8 +21,8 @@ public class Main {
     private static Injector injector = Injector.getInstance("com.dev.cinema");
 
     public static void main(String[] args) throws AuthenticationException {
-
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
+        MovieService movieService =
+                (MovieService) injector.getInstance(MovieService.class);
 
         movieService.getAll().forEach(System.out::println);
 
@@ -44,12 +45,6 @@ public class Main {
         MovieSessionService movieSessionService = (MovieSessionService) injector
                 .getInstance(MovieSessionService.class);
         movieSession = movieSessionService.add(movieSession);
-
-        MovieSession movieSession1 = new MovieSession();
-        movieSession1.setCinemaHall(cinemaHall);
-        movieSession1.setMovie(movie);
-        movieSession1.setShowTime(LocalDateTime.now());
-        movieSession1 = movieSessionService.add(movieSession1);
 
         List<MovieSession> result = movieSessionService
                 .findAvailableSessions(movie.getId(), LocalDate.now());
@@ -75,8 +70,11 @@ public class Main {
         User registeredUser =
                 authenticationService.registration("markchicken@facebook.com", "12345");
         System.out.println(registeredUser.getEmail());
-        User sameRegisteredUser =
-                authenticationService.registration("markchicken@facebook.com", "1234");
 
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+
+        shoppingCartService.addSession(movieSession, registeredUser);
+        System.out.println(shoppingCartService.getByUser(registeredUser).getSessions());
     }
 }

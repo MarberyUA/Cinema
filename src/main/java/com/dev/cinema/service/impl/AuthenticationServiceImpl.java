@@ -6,6 +6,7 @@ import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
 
@@ -13,6 +14,9 @@ import com.dev.cinema.util.HashUtil;
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     private UserService userService;
+
+    @Inject
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
@@ -36,6 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setSalt(HashUtil.getSalt());
             user.setPassword(HashUtil.hashPassword(password, user.getSalt()));
             userService.create(user);
+            shoppingCartService.registerNewShoppingCart(user);
             return user;
         } catch (DataProcessingException e) {
             throw new AuthenticationException("The user with this email "
