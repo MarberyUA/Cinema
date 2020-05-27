@@ -9,4 +9,5 @@ public interface ShoppingCartDao {
     ShoppingCart getByUser(User user);
 
     void update(ShoppingCart shoppingCart);
+
 }
