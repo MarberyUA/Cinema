@@ -16,7 +16,7 @@ import org.hibernate.query.Query;
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-            Session session = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             String hqlQuery = "FROM MovieSession ms WHERE ms.movie.id = :id "

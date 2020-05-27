@@ -1,6 +1,5 @@
 package com.dev.cinema.service;
 
-import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.User;
 
 public interface UserService {
