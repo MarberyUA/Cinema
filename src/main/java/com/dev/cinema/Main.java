@@ -94,5 +94,8 @@ public class Main {
                 (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart, registeredUser);
         System.out.println(shoppingCart.getSessions());
+
+        shoppingCartService.addSession(movieSession, registeredUser);
+        System.out.println(shoppingCartService.getByUser(registeredUser).getSessions());
     }
 }
