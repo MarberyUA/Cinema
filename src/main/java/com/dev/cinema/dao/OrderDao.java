@@ -5,7 +5,7 @@ import com.dev.cinema.model.User;
 import java.util.List;
 
 public interface OrderDao {
-    Order completeOrder(Order order);
+    Order addOrder(Order order);
 
     List<Order> getOrderHistory(User user);
 }
