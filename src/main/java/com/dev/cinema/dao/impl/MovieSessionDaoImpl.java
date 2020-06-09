@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Autowired
     SessionFactory sessionFactory;
-
+  
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         Session session = null;

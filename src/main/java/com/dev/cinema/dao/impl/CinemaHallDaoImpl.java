@@ -41,7 +41,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     @Override
     public List<CinemaHall> getAll() {
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {r
             CriteriaQuery<CinemaHall> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(CinemaHall.class);
             criteriaQuery.from(Movie.class);
