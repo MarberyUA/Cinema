@@ -2,22 +2,26 @@ package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.ShoppingCartDao;
 import com.dev.cinema.exceptions.DataProcessingException;
-import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
-import com.dev.cinema.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public ShoppingCart create(ShoppingCart shoppingCart) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(shoppingCart);
             transaction.commit();
@@ -38,7 +42,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public ShoppingCart getByUser(User user) {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             String hqlQuery = "FROM ShoppingCart sc left join fetch sc.tickets Ticket "
                     + "WHERE sc.user.id = :id";
             Query<ShoppingCart> query = session.createQuery(hqlQuery, ShoppingCart.class);
@@ -58,7 +62,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(shoppingCart);
             transaction.commit();
