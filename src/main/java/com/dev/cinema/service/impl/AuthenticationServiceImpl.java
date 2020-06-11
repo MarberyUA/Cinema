@@ -33,10 +33,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User registration(String email, String password) throws AuthenticationException {
+    public User registration(String name, String email, String password)
+            throws AuthenticationException {
         try {
             User user = new User();
             user.setEmail(email);
+            user.setName(name);
             user.setSalt(HashUtil.getSalt());
             user.setPassword(HashUtil.hashPassword(password, user.getSalt()));
             userService.create(user);
