@@ -52,7 +52,8 @@ public class MovieSessionController {
             LocalDate showDate = LocalDate.parse(date);
             return movieSessionService.findAvailableSessions(id, showDate)
                     .stream()
-                    .map(session -> movieSessionMapper.movieSessionToMovieSessionResponseDto(session))
+                    .map(session -> movieSessionMapper
+                            .movieSessionToMovieSessionResponseDto(session))
                     .collect(Collectors.toList());
         } catch (DateTimeParseException e) {
             throw new SettingDateTimeException("Could not parse date, "
