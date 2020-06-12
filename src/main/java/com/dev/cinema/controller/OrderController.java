@@ -38,12 +38,12 @@ public class OrderController {
         orderService.completeOrder(shoppingCartService.getByUser(user), user);
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<OrderResponseDto> getUserOrders(@RequestParam Long userId) {
         User user = userService.get(userId);
         return orderService.getOrderHistory(user)
                 .stream()
-                .map(i -> orderMapper.orderToOrderResponseDto(i))
+                .map(order -> orderMapper.orderToOrderResponseDto(order))
                 .collect(Collectors.toList());
 
     }

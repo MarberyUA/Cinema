@@ -29,7 +29,7 @@ public class ShoppingCartController {
     @Autowired
     private MovieSessionService movieSessionService;
 
-    @PostMapping("/addmoviesession")
+    @PostMapping("/add-movie-session")
     public void addMovieSessionToShoppingCart(
             @RequestBody ShoppingCartRequestDto shoppingCartRequestDto,
             @RequestParam Long userId) {

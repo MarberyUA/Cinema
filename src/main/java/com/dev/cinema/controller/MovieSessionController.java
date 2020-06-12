@@ -35,7 +35,7 @@ public class MovieSessionController {
     @Autowired
     private MovieSessionMapper movieSessionMapper;
 
-    @PostMapping("/add")
+    @PostMapping
     public void addMovieSession(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = movieSessionMapper
                 .movieSessionRequestDtoToMovieSession(movieSessionRequestDto);
@@ -52,7 +52,7 @@ public class MovieSessionController {
             LocalDate showDate = LocalDate.parse(date);
             return movieSessionService.findAvailableSessions(id, showDate)
                     .stream()
-                    .map(i -> movieSessionMapper.movieSessionToMovieSessionResponseDto(i))
+                    .map(session -> movieSessionMapper.movieSessionToMovieSessionResponseDto(session))
                     .collect(Collectors.toList());
         } catch (DateTimeParseException e) {
             throw new SettingDateTimeException("Could not parse date, "

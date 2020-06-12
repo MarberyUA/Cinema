@@ -22,15 +22,15 @@ public class CinemaHallController {
     @Autowired
     private CinemaHallMapper cinemaHallMapper;
 
-    @GetMapping("/")
+    @GetMapping
     public List<CinemaHallResponseDto> all() {
         return cinemaHallService.getAll()
                 .stream()
-                .map(i -> cinemaHallMapper.cinemaHallToCinemaHallResponse(i))
+                .map(c -> cinemaHallMapper.cinemaHallToCinemaHallResponse(c))
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void add(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
         cinemaHallService.add(cinemaHallMapper
                 .cinemaHallRequestDtoToCinemaHall(cinemaHallRequestDto));

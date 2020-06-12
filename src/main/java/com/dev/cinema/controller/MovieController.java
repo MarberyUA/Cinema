@@ -23,15 +23,15 @@ public class MovieController {
     @Autowired
     private MovieMapper movieMapper;
 
-    @GetMapping("/")
+    @GetMapping
     public List<MovieResponseDto> getAll() {
         return movieService.getAll()
                 .stream()
-                .map(i -> makeMovieResponse(i))
+                .map(movie -> makeMovieResponse(movie))
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void add(@RequestBody MovieRequestDto movieRequestDto) {
         movieService.add(movieMapper.movieRequestDtoToMovie(movieRequestDto));
     }
