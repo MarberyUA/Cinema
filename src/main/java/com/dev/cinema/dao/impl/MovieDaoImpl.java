@@ -33,18 +33,35 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     public List<Movie> getAll() {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Movie.class);
             criteriaQuery.from(Movie.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving all movies.", e);
+        }
+    }
+
+    @Override
+    public Movie get(Long id) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Movie movie = session.get(Movie.class, id);
+            transaction.commit();
+            return movie;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Error while getting movie from db!", e);
+        } finally {
             if (session != null) {
                 session.close();
             }
-            throw new DataProcessingException("Error retrieving all movies.", e);
         }
     }
 }
