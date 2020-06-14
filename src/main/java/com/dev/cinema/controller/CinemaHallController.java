@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/cinemahalls")
 public class CinemaHallController {
@@ -31,7 +33,7 @@ public class CinemaHallController {
     }
 
     @PostMapping
-    public void add(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
+    public void add(@RequestBody @Valid CinemaHallRequestDto cinemaHallRequestDto) {
         cinemaHallService.add(cinemaHallMapper
                 .cinemaHallRequestDtoToCinemaHall(cinemaHallRequestDto));
     }

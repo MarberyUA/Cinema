@@ -1,6 +1,8 @@
 package com.dev.cinema.model.dto.request;
 
 import com.dev.cinema.exceptions.SettingDateTimeException;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,7 +11,9 @@ import java.time.format.DateTimeParseException;
 public class MovieSessionRequestDto {
     private Long movieId;
     private Long cinemaHallId;
+    @NotNull
     private String showDate;
+    @NotNull
     private String showTime;
 
     public Long getMovieId() {

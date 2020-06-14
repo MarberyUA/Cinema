@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class AuthenticationController {
     @Autowired
@@ -19,7 +21,7 @@ public class AuthenticationController {
     private AuthenticationMapper authenticationMapper;
 
     @PostMapping("/register")
-    public void register(@RequestBody AuthenticationRequestDto authenticationRequestDto)
+    public void register(@Valid @RequestBody AuthenticationRequestDto authenticationRequestDto)
             throws AuthenticationException {
         User user = authenticationMapper.authenticationRequestDtoToUser(authenticationRequestDto);
         authenticationService.registration(user.getName(), user.getEmail(), user.getPassword());

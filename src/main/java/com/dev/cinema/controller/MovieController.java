@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequestMapping("/movies")
 @RestController
 public class MovieController {
@@ -32,7 +34,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public void add(@RequestBody MovieRequestDto movieRequestDto) {
+    public void add(@RequestBody @Valid MovieRequestDto movieRequestDto) {
         movieService.add(movieMapper.movieRequestDtoToMovie(movieRequestDto));
     }
 
