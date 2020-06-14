@@ -1,10 +1,9 @@
 package com.dev.cinema.model.validator;
 
 import com.dev.cinema.lib.FieldMatchConstraint;
-import org.springframework.beans.BeanWrapperImpl;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatchConstraint, Object> {
     private String field;

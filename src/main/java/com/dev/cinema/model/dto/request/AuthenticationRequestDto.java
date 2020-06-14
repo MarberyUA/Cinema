@@ -2,11 +2,10 @@ package com.dev.cinema.model.dto.request;
 
 import com.dev.cinema.lib.EmailConstraint;
 import com.dev.cinema.lib.FieldMatchConstraint;
-
 import javax.validation.constraints.NotNull;
 
-
-@FieldMatchConstraint(field = "password", fieldMatch = "repeatPassword", message = "Passwords do not match!")
+@FieldMatchConstraint(field = "password", fieldMatch = "repeatPassword",
+        message = "Passwords do not match!")
 public class AuthenticationRequestDto {
     @EmailConstraint
     private String email;
