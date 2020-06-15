@@ -2,6 +2,10 @@ package com.dev.cinema;
 
 public class Main {
     public static void main(String[] args) {
-        String email = "marberymain@gmail.com";
+        System.out.println(isNegative(-0.0f));
+    }
+
+    public static boolean isNegative(float n) {
+        return n == -0;
     }
 }
