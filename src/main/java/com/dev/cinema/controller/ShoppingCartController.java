@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,7 +32,8 @@ public class ShoppingCartController {
 
     @PostMapping("/add-movie-session")
     public void addMovieSessionToShoppingCart(
-            @RequestBody ShoppingCartRequestDto shoppingCartRequestDto, Authentication authentication) {
+            @RequestBody ShoppingCartRequestDto shoppingCartRequestDto,
+            Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         shoppingCartService.addSession(movieSessionService.get(shoppingCartMapper
                 .movieSessionIdFromShoppingCartRequestDto(shoppingCartRequestDto)),
