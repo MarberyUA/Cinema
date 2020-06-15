@@ -33,14 +33,24 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @PostMapping("/complete")
+<<<<<<< Updated upstream
     public void completeOrder(@RequestBody OrderRequestDto orderRequestDto) {
         User user = userService.get(orderMapper.orderRequestDtoToUserId(orderRequestDto));
+=======
+    public void completeOrder(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+>>>>>>> Stashed changes
         orderService.completeOrder(shoppingCartService.getByUser(user), user);
     }
 
     @GetMapping
+<<<<<<< Updated upstream
     public List<OrderResponseDto> getUserOrders(@RequestParam Long userId) {
         User user = userService.get(userId);
+=======
+    public List<OrderResponseDto> getUserOrders(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+>>>>>>> Stashed changes
         return orderService.getOrderHistory(user)
                 .stream()
                 .map(order -> orderMapper.orderToOrderResponseDto(order))
