@@ -1,6 +1,5 @@
 package com.dev.cinema.config;
 
-import com.dev.cinema.security.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -8,16 +7,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsServiceImpl();
-    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,10 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/cinemahalls/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/moviesessions/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/moviesessions/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/orders/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/orders/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/shoppingcarts/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/shoppingcarts/**").permitAll()
+                .antMatchers("/orders/**").hasRole("USER")
+                .antMatchers("/shoppingcarts/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

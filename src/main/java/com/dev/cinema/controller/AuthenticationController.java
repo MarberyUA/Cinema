@@ -6,7 +6,9 @@ import com.dev.cinema.model.User;
 import com.dev.cinema.model.dto.request.AuthenticationRequestDto;
 import com.dev.cinema.model.mapper.AuthenticationMapper;
 import com.dev.cinema.service.AuthenticationService;
+import com.dev.cinema.service.RoleService;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +23,24 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationMapper authenticationMapper;
 
+    @Autowired
+    private RoleService roleService;
+
+    @PostConstruct
+    public void init() {
+        Role.RoleName[] roles = Role.RoleName.values();
+        for (int i = 0; i < roles.length; i++) {
+            Role role = new Role();
+            role.setRoleName(roles[i]);
+            roleService.add(role);
+        }
+    }
+
     @PostMapping("/register")
     public void register(@Valid @RequestBody AuthenticationRequestDto authenticationRequestDto)
             throws AuthenticationException {
         User user = authenticationMapper.authenticationRequestDtoToUser(authenticationRequestDto);
-        Role role = new Role();
-        role.setRoleName(Role.RoleName.USER);
         authenticationService.registration(user.getName(), user.getEmail(),
-                user.getPassword(), Set.of(role));
+                user.getPassword(), Set.of(roleService.getRoleByName("USER")));
     }
 }
