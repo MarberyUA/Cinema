@@ -4,12 +4,11 @@ import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.Role;
 import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.RoleService;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.annotation.PostConstruct;
 
 @RequestMapping("/inject")
 @Controller

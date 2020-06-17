@@ -19,7 +19,6 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationMapper authenticationMapper;
 
-
     @PostMapping("/register")
     public void register(@Valid @RequestBody AuthenticationRequestDto authenticationRequestDto)
             throws AuthenticationException {
