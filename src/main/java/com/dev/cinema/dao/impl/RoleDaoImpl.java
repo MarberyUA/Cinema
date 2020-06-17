@@ -39,25 +39,20 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role getRoleByName(String roleName) {
-        Role.RoleName enumRoleName = null;
+        Role.RoleName enumRoleName;
         try {
             enumRoleName = Role.RoleName.valueOf(roleName);
         } catch (IllegalArgumentException e) {
             throw new DataProcessingException("There is not such role", e);
         }
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
+
+        try (Session session = sessionFactory.openSession()) {
             String hqlQuery = "FROM roles rl WHERE rl.roleName = :role";
             Query<Role> query = session.createQuery(hqlQuery, Role.class);
             query.setParameter("role", enumRoleName);
             return query.uniqueResult();
         } catch (Exception e) {
             throw new DataProcessingException("Error while getting role from db", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }

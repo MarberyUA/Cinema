@@ -24,7 +24,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @Column(name = "users_roles")
     private Set<Role> roles = new HashSet<>();
 

@@ -7,16 +7,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService())
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(getEncoder());
     }
 
@@ -34,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/cinemahalls/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/moviesessions/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/moviesessions/**").permitAll()
+                .antMatchers("/inject/**").permitAll()
                 .antMatchers("/orders/**").hasRole("USER")
                 .antMatchers("/shoppingcarts/**").hasRole("USER")
                 .anyRequest().authenticated()
