@@ -3,19 +3,16 @@ package com.dev.cinema.controller;
 import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
-import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.RoleService;
-import javax.annotation.PostConstruct;
-
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
+import java.util.Set;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Set;
 
 @RequestMapping("/inject")
 @Controller
