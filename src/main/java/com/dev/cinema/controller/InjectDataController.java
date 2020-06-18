@@ -2,13 +2,20 @@ package com.dev.cinema.controller;
 
 import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.Role;
+import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.RoleService;
 import javax.annotation.PostConstruct;
+
+import com.dev.cinema.service.ShoppingCartService;
+import com.dev.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Set;
 
 @RequestMapping("/inject")
 @Controller
@@ -17,7 +24,13 @@ public class InjectDataController {
     private RoleService roleService;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private UserService userService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void init() {
@@ -31,7 +44,15 @@ public class InjectDataController {
 
     @GetMapping
     public void injectData() throws AuthenticationException {
-        authenticationService.registration("admin", "admin@gmail.com", "1234");
+        User user = new User();
+        user.setEmail("administrator@gmail.com");
+        user.setName("admin");
+        Set<Role> roles = Set.of(roleService.getRoleByName("ADMIN"),
+                roleService.getRoleByName("USER"));
+        user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode("12345"));
+        userService.create(user);
+        shoppingCartService.registerNewShoppingCart(user);
     }
 
 }

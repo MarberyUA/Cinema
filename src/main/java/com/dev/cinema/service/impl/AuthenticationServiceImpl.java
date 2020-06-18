@@ -34,10 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             User user = new User();
             user.setEmail(email);
             user.setName(name);
-            Set<Role> roles = name.equals("admin")
-                    ? Set.of(roleService.getRoleByName("USER"),
-                    roleService.getRoleByName("ADMIN"))
-                    : Set.of(roleService.getRoleByName("USER"));
+            Set<Role> roles = Set.of(roleService.getRoleByName("USER"));
             user.setRoles(roles);
             user.setPassword(passwordEncoder.encode(password));
             userService.create(user);
