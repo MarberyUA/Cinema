@@ -23,6 +23,7 @@ public class AuthenticationController {
     public void register(@Valid @RequestBody AuthenticationRequestDto authenticationRequestDto)
             throws AuthenticationException {
         User user = authenticationMapper.authenticationRequestDtoToUser(authenticationRequestDto);
-        authenticationService.registration(user.getName(), user.getEmail(), user.getPassword());
+        authenticationService.registration(user.getName(), user.getEmail(),
+                user.getPassword());
     }
 }

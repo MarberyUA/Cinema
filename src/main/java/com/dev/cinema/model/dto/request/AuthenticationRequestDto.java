@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 @FieldMatchConstraint(field = "password", fieldMatch = "repeatPassword",
         message = "Passwords do not match!")
 public class AuthenticationRequestDto {
-    @EmailConstraint
+    @EmailConstraint(message = "incorrect email")
     private String email;
-    @NotNull
+    @NotNull(message = "name must not be null")
     private String name;
     private String password;
     private String repeatPassword;

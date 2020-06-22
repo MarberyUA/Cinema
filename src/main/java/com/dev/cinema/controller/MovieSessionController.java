@@ -37,7 +37,7 @@ public class MovieSessionController {
     private MovieSessionMapper movieSessionMapper;
 
     @PostMapping
-    public void addMovieSession(@RequestBody @Valid MovieSessionRequestDto movieSessionRequestDto) {
+    public void addMovieSession(@Valid @RequestBody MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = movieSessionMapper
                 .movieSessionRequestDtoToMovieSession(movieSessionRequestDto);
         movieSession.setMovie(movieService.get(movieSession.getMovie().getId()));

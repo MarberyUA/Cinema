@@ -8,7 +8,6 @@ import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,17 +33,14 @@ public class ShoppingCartController {
     public void addMovieSessionToShoppingCart(
             @RequestBody ShoppingCartRequestDto shoppingCartRequestDto,
             Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         shoppingCartService.addSession(movieSessionService.get(shoppingCartMapper
                 .movieSessionIdFromShoppingCartRequestDto(shoppingCartRequestDto)),
-                userService.findByEmail(userDetails.getUsername()));
-
+                userService.findByEmail(authentication.getName()));
     }
 
-    @GetMapping("/byuser")
+    @GetMapping
     public ShoppingCartResponseDto getShoppingCartByUser(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return shoppingCartMapper.shoppingCartToShoppingCartResponseDto(shoppingCartService
-                .getByUser(userService.findByEmail(userDetails.getUsername())));
+                .getByUser(userService.findByEmail(authentication.getName())));
     }
 }

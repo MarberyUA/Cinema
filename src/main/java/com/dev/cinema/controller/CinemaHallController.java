@@ -32,7 +32,7 @@ public class CinemaHallController {
     }
 
     @PostMapping
-    public void add(@RequestBody @Valid CinemaHallRequestDto cinemaHallRequestDto) {
+    public void add(@Valid @RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
         cinemaHallService.add(cinemaHallMapper
                 .cinemaHallRequestDtoToCinemaHall(cinemaHallRequestDto));
     }
