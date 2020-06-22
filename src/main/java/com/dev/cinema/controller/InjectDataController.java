@@ -28,15 +28,15 @@ public class InjectDataController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @PostConstruct
-//    public void init() {
-//        Role.RoleName[] roles = Role.RoleName.values();
-//        for (int i = 0; i < roles.length; i++) {
-//            Role role = new Role();
-//            role.setRoleName(roles[i]);
-//            roleService.add(role);
-//        }
-//    }
+    @PostConstruct
+    public void init() {
+        Role.RoleName[] roles = Role.RoleName.values();
+        for (int i = 0; i < roles.length; i++) {
+            Role role = new Role();
+            role.setRoleName(roles[i]);
+            roleService.add(role);
+        }
+    }
 
     @GetMapping
     public void injectData() {

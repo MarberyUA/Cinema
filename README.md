@@ -116,3 +116,7 @@ Also, choose type raw in Body of request and here are fields which you should be
     POST : "/moviesessions". JSON data : {"movieId" : movie-id, "cinemaHallId" : cinemahall-id, "showDate" : "year-month-day", "showTime" : "hour:minutes"}
     POST : "/register". JSON data : {"email" : "user-email", "name" : "user-name", "password" : "user-password", "repeatPassword" : "password-repeat"}
     GET : "/shoppingcarts". JSON data : {"movieSessionId" : "movieSession-id"}
+
+
+---
+If description or functionality of project is wrong you can message me : marberymain@gmail.com
