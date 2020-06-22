@@ -1,6 +1,5 @@
 package com.dev.cinema.controller;
 
-import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.RoleService;
@@ -10,12 +9,12 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/inject")
-@Controller
+@RestController
 public class InjectDataController {
     @Autowired
     private RoleService roleService;
@@ -29,18 +28,18 @@ public class InjectDataController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostConstruct
-    public void init() {
-        Role.RoleName[] roles = Role.RoleName.values();
-        for (int i = 0; i < roles.length; i++) {
-            Role role = new Role();
-            role.setRoleName(roles[i]);
-            roleService.add(role);
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        Role.RoleName[] roles = Role.RoleName.values();
+//        for (int i = 0; i < roles.length; i++) {
+//            Role role = new Role();
+//            role.setRoleName(roles[i]);
+//            roleService.add(role);
+//        }
+//    }
 
     @GetMapping
-    public void injectData() throws AuthenticationException {
+    public void injectData() {
         User user = new User();
         user.setEmail("administrator@gmail.com");
         user.setName("admin");
